@@ -1,8 +1,9 @@
 import axios from "axios";
 const base_url = process.env.BASE_URL;
+// import Base_url from "../../../config/config";
 
 const http = axios.create({
-    baseURL:base_url,
+    baseURL:"http://localhost:8000/api",
     responseType:"json",
     timeout:20000,
     timeoutErrorMessage: "server took too much time to respond"
@@ -25,6 +26,30 @@ const GET = (url,data,isSecured = false,params = {}) =>{
   });
 };
 
+const POST = (url,data,isSecured = false,params = {}) =>{
+    return http.get(url,data,{
+      headers:getHeaders(isSecured),
+      params
+    });
+  };
+
+  const UPDATE = (url,data,isSecured = false,params = {}) =>{
+    return http.get(url,data,{
+      headers:getHeaders(isSecured),
+      params
+    });
+  };
+
+  const DELETE = (url,data,isSecured = false,params = {}) =>{
+    return http.get(url,{
+      headers:getHeaders(isSecured),
+      params
+    });
+  };
 export const httpClient = {
-    GET
+    GET,
+    POST,
+    UPDATE,
+    DELETE
+
 }

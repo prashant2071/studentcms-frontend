@@ -19,12 +19,11 @@ const Home = () => {
   return (
     <Table striped bordered hover >
       <thead>
-        <tr>
+        <tr className='bg-primary'>
           {Object.keys(data).map((item)=>{
            return <th>{item}</th>
           })}
           
-          {/* <th>Total student</th> */}
         </tr>
       </thead>
       <tbody>

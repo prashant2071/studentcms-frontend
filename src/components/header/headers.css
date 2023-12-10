@@ -8,12 +8,10 @@ ul{
     float: right;
     padding: 40px;
     gap:30px;
-    font-size: 30px;
-    font-weight: bold;
+    font-size: 25px;
+    font-weight:600;
     list-style-type: none;
     color: white;
     margin-right: 50px;
     
-
-
 }
