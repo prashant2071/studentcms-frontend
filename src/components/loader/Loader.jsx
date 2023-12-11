@@ -1,17 +1,18 @@
 import React, { useState } from "react";
 
-import { PacmanLoader } from "react-spinners";
+import { ClipLoader} from "react-spinners";
 
 const Loader = () => {
-  let [color, setColor] = useState("#003580");
+  let [color, setColor] = useState("#36d7b7");
   const Loaderoverride = {
     display: "block",
-    margin: "30% auto",
+    marginTop:"250px",
+    marginLeft:"600px"
+
   };
   return (
     <>
-      <PacmanLoader color={color} cssOverride={Loaderoverride} size={50} />
-      <p style={{margin:"33% auto",display:"block"}}>loading ...</p>
+      <ClipLoader color={color} cssOverride={Loaderoverride} size={80} />
     </>
   );
 };
