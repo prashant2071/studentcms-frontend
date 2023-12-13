@@ -1,5 +1,5 @@
 import axios from "axios";
-const base_url = process.env.BASE_URL;
+// const base_url = process.env.BASE_URL;
 // import Base_url from "../../../config/config";
 
 const http = axios.create({
@@ -19,7 +19,7 @@ const getHeaders = (isSecured = false) =>{
     return option;
 };
 
-const GET = (url,data,isSecured = false,params = {}) =>{
+const GET = (url,isSecured = false,params = {}) =>{
   return http.get(url,{
     headers:getHeaders(isSecured),
     params
@@ -27,21 +27,21 @@ const GET = (url,data,isSecured = false,params = {}) =>{
 };
 
 const POST = (url,data,isSecured = false,params = {}) =>{
-    return http.get(url,data,{
+    return http.post(url,data,{
       headers:getHeaders(isSecured),
       params
     });
   };
 
   const UPDATE = (url,data,isSecured = false,params = {}) =>{
-    return http.get(url,data,{
+    return http.patch(url,data,{
       headers:getHeaders(isSecured),
       params
     });
   };
 
-  const DELETE = (url,data,isSecured = false,params = {}) =>{
-    return http.get(url,{
+  const DELETE = (url, isSecured = false,params = {}) =>{
+    return http.delete(url,{
       headers:getHeaders(isSecured),
       params
     });

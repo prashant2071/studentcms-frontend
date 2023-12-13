@@ -6,6 +6,8 @@ import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import Students from "./components/student/Student";
 import Courses from "./components/course/Course";
 import Login from './components/login/Login'
+import StudentCourses from "./components/studentCourse/StudentCourse";
+
 
 function App() {
   return (
@@ -16,6 +18,8 @@ function App() {
         <Route path="/login" element = {<Login/>}/>
         <Route path="/students" element = {<Students/>}/>
         <Route path="/courses" element = {<Courses/>}/>
+        <Route path="/studentcourse" element = {<StudentCourses/>}/>
+
       </Routes>
       <Footer />
     </Router>

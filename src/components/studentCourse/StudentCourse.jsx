@@ -5,19 +5,20 @@ import { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import { FaEdit } from "react-icons/fa";
 import { RiDeleteBinFill } from "react-icons/ri";
-import CourseModal from "./Modal/CourseModal";
 import { toast } from "react-toastify";
+import StudenCourseModal from "./Modal/StudentCourseModal";
 
-const Courses = () => {
-  const [courses, setCourses] = useState([]);
-  const [course, setCourse] = useState({
+const StudentCourses = () => {
+  const [studentcourses, setStudentCourses] = useState([]);
+  const [studentcourse, setStudentCourse] = useState({
+    id:"",
     course_name: "",
-    duration: "",
-    description: "",
-    instructor_name: "",
-    course_fee: "",
-    start_date: "",
+    first_name: "",
+    student_id:"",
+    course_id:""
   });
+  const [students,setStudents] =useState([]);
+  const [courses,setCourses] =useState([]);
   const [count, setCount] = useState(0);
   const [showModal, setShowModal] = useState(false);
   const [title, setTitle] = useState("");
@@ -25,41 +26,43 @@ const Courses = () => {
 
   useEffect(() => {
     httpClient
-      .GET("/courses/", true, null)
+      .GET("/courses/studentcourses/", true, null)
       .then((res) => {
         console.log("the data is ", res.data);
-        // const { data } = res.data;
-        setCourses(res.data.data);
+        const { student_courses,courses,students } = res.data;
+        setCourses(courses);
+        setStudents(students);
+        setStudentCourses(student_courses);
       })
       .catch((err) => {
         console.log("the error is ", err);
       });
   }, [count]);
 
-  const AddCourse = () => {
-    setCourse({});
+  const AddStudentCourse = () => {
+    setStudentCourse({});
     setShowModal(true);
-    setTitle("Add Course");
+    setTitle("Add Student Course");
   };
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setCourse((prev) => {
+    setStudentCourse((prev) => {
       return { ...prev, [name]: value };
     });
   };
   const cancelHandler = () => {
     setShowModal(false);
-    setCourse({});
+    setStudentCourse({});
   };
 
   const addCourseHandler = () => {
-    console.log("the course is", course);
+    console.log("the course is", studentcourse);
     httpClient
-      .POST("/courses/", course, true, null)
+      .POST("/courses/studentcourses/", studentcourse, true, null)
       .then((res) => {
         debugger;
         const { data } = res.data;
-        setCourses(data);
+        setStudentCourse(data);
       })
       .catch((err) => {
         toast.error("error occour failed to addd course");
@@ -68,25 +71,23 @@ const Courses = () => {
   };
   const handleEdit = (item) => {
     setEdit(true);
-    setCourse(item);
-    setTitle("Edit Course");
+    setStudentCourse(item);
+    setTitle("Edit Student Course");
     setShowModal(true);
   };
   const handleEditPost = () => {
     httpClient
-      .UPDATE(`/courses/${course.id}`, course, true, null)
+      .UPDATE(`/courses/studentcourses/${studentcourse.id}`, studentcourse, true, null)
       .then((res) => {
-        debugger;
         const { data } = res.data;
-        debugger;
-        setCourses(data);
+        setStudentCourse(data);
       })
       .catch((err) => {
         toast.error("error occour failed to addd course");
       });
     setShowModal(false);
   };
-  const handleDelete = () =>{
+  const handleDelete = (id) =>{
 
   }
 
@@ -95,41 +96,41 @@ const Courses = () => {
       <div className="container-fluid ">
         <div className="row">
           <div className="col-12 m-1">
-            <Button variant="primary float-end" onClick={AddCourse}>
-              Add Courses
+            <Button variant="primary float-end" onClick={AddStudentCourse} >
+              Add Student Course
             </Button>
           </div>
         </div>
         <Table striped bordered hover>
           <thead>
             <tr>
+              <th>Id</th>
+              <th>Student Name</th>
+              <th>Student Id</th>
               <th>Course Name</th>
-              <th>Duration</th>
-              <th>Description</th>
-              <th>Instructor Name</th>
-              <th>Course Fee</th>
-              <th>Start Date</th>
-              <th>Action</th>
+              <th>Course Id</th>
+
+
             </tr>
           </thead>
           <tbody>
-            {courses[0] ? (
-              courses.map((item) => {
+            {studentcourses[0] ? (
+              studentcourses.map((item) => {
                 return (
                   <tr key={item.id}>
+                    <td>{item.id}</td>
+                    <td>{item.first_name}</td>
+                    <td>{item.student_id}</td>
                     <td>{item.course_name}</td>
-                    <td>{item.duration}</td>
-                    <td>{item.description}</td>
-                    <td>{item.instructor_name}</td>
-                    <td>{item.course_fee}</td>
-                    <td>{item.start_date}</td>
+                    <td>{item.course_id}</td>
+
                     <td>
                       <FaEdit
                         size={25}
                         color="0d6efd"
                         onClick={() => handleEdit(item)}
                       />{" "}
-                      <RiDeleteBinFill size={25} color="#c40b0a" />
+                      <RiDeleteBinFill size={25} color="#c40b0a" onClick={() => handleDelete(item.id)}/>
                     </td>
                   </tr>
                 );
@@ -140,8 +141,10 @@ const Courses = () => {
           </tbody>
         </Table>
       </div>
-      <CourseModal
-        course={course}
+      <StudenCourseModal
+        students = {students}
+        courses = {courses}
+        studentcourse={studentcourse}
         edit={edit}
         show={showModal}
         title={title}
@@ -154,4 +157,4 @@ const Courses = () => {
   );
 };
 
-export default Courses;
+export default StudentCourses;
